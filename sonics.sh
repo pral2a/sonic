@@ -7,9 +7,10 @@
 EXPORT_FOLDER=$(echo $2 | tr ' ' '_' | tr '.' '_'  | tr '-' '_')
 INPUT_FOLDER=$1
 FX=$2
-DOVIDEO=$3
+DOVIDEO=$4
+DOWNSAMPLE=${3-false}
 
-parallel sonictiff ::: ls $INPUT_FOLDER/*.tiff ::: $EXPORT_FOLDER ::: "$FX"
+parallel sonicnew ::: ls $INPUT_FOLDER/*.tiff ::: $EXPORT_FOLDER ::: "$FX" ::: $DOWNSAMPLE
 
 if [ "$DOVIDEO" == "video" ]; then
 	
