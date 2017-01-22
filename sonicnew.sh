@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# $ source.jpg export_folder "effects”
-# ex: $  img.jpg exports "echo 0.5 0.5 0.5 0.5”
+# $ source.jpg export_folder "effects" process
+# ex: $  img.jpg exports "echo 0.5 0.5 0.5 0.5" u-law
 
 if [[ -d "$1" ]]; then
     cd "$1"
@@ -21,7 +21,8 @@ EXTENSION="${FILENAME##*.}"
 FILENAME="${FILENAME%.*}"
 
 # FX paramas
-ENCODING="u-law" #unsigned-integer OR u-law
+#ENCODING="a-law" #unsigned-integer OR u-law
+ENCODING=$4
 FX=${3-echo 1 1 1 1}
 
 # CHECK IF FOLDER
@@ -42,5 +43,6 @@ echo "Processing ... $FILENAME with $FX"
 
 # MAGIC
 convert $EXTENSION:$FILEPATH rgb:- | sox --type raw --bits $PROCESSDEPTH --encoding $ENCODING --channels 1 --rate 44.1k - --type raw - $FX | convert -depth $DEPTH -size $SIZE rgb:- $EXTENSION:$EXPORT_FOLDER/$FILENAME.$EXTENSION
+
 
 echo "Output result saved on $EXPORT_FOLDER/$FILENAME.tiff"
