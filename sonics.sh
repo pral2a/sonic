@@ -7,9 +7,12 @@
 EXPORT_FOLDER=$(echo $2 | tr ',' '_' | tr ' ' '_' | tr '.' '_'  | tr '-' '_')
 INPUT_FOLDER=$1
 FX=$2
-DOVIDEO=$3
+DOVIDEO=$4
+PROCESS=${3:-"u-law"}
 
-parallel sonicnew ::: ls $INPUT_FOLDER/*.tiff ::: $EXPORT_FOLDER ::: "$FX"
+
+
+parallel sonicnew ::: ls $INPUT_FOLDER/*.tiff ::: $EXPORT_FOLDER ::: "$FX" ::: "$PROCESS"
 
 if [ "$DOVIDEO" == "video" ]; then
 	
