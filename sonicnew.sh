@@ -31,8 +31,6 @@ if [ ! -d $EXPORT_FOLDER ]; then
   mkdir -p $EXPORT_FOLDER;
 fi
 
-echo "$DEPTH"
-
 if [ "$DEPTH" -gt "8" ]; then
    echo "Converting $FILENAME to 8 bits ..."
    mogrify -depth 8 -format $EXTENSION $FILENAME.$EXTENSION

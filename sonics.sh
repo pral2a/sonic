@@ -4,15 +4,13 @@
 # ex: $ sonics originals "echo 0.5 0.5 0.5 0.5"
 
 
-EXPORT_FOLDER=$(echo $2 | tr ',' '_' | tr ' ' '_' | tr '.' '_'  | tr '-' '_')
 INPUT_FOLDER=$1
 FX=$2
 DOVIDEO=$4
 PROCESS=${3:-"u-law"}
+EXPORT_FOLDER="$(echo $PROCESS | tr ',' '_' | tr ' ' '_' | tr '.' '_'  | tr '-' '_')_$(echo $FX | tr ',' '_' | tr ' ' '_' | tr '.' '_'  | tr '-' '_')"
 
-
-
-parallel sonicnew ::: ls $INPUT_FOLDER/*.tiff ::: $EXPORT_FOLDER ::: "$FX" ::: "$PROCESS"
+find $INPUT_FOLDER -type f -not -name ".DS_Store" | parallel sonicnew '{}' $EXPORT_FOLDER \"$FX\" \"$PROCESS\"
 
 if [ "$DOVIDEO" == "video" ]; then
 	
